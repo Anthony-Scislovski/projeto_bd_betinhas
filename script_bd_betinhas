@@ -21,3 +21,16 @@ CREATE TABLE colecao (
     ano INT NOT NULL
 );
 
+ Tabela Roupa
+CREATE TABLE roupa (
+    id_roupa BIGINT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    genero VARCHAR(50),
+    tamanho VARCHAR(10) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    id_estilo BIGINT NOT NULL,
+    id_colecao BIGINT,
+    FOREIGN KEY (id_estilo) REFERENCES estilo(id_estilo),
+    FOREIGN KEY (id_colecao) REFERENCES colecao(id_colecao)
+);
+
