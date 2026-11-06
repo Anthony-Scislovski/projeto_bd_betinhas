@@ -1,0 +1,100 @@
+ Tabela Loja
+CREATE TABLE loja (
+    id_loja BIGINT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    endereco VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL
+);
+
+ Tabela Estilo
+CREATE TABLE estilo (
+    id_estilo BIGINT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT
+);
+
+ Tabela Colecao
+CREATE TABLE colecao (
+    id_colecao BIGINT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    estacao VARCHAR(50),
+    ano INT NOT NULL
+);
+
+ Tabela Roupa
+CREATE TABLE roupa (
+    id_roupa BIGINT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    genero VARCHAR(50),
+    tamanho VARCHAR(10) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    id_estilo BIGINT NOT NULL,
+    id_colecao BIGINT,
+    FOREIGN KEY (id_estilo) REFERENCES estilo(id_estilo),
+    FOREIGN KEY (id_colecao) REFERENCES colecao(id_colecao)
+);
+
+ Tabela Cliente
+CREATE TABLE cliente (
+    id_cliente BIGINT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14),
+    email VARCHAR(255),
+    id_loja BIGINT,
+    id_estilo_preferido BIGINT,
+    FOREIGN KEY (id_loja) REFERENCES loja(id_loja),
+    FOREIGN KEY (id_estilo_preferido) REFERENCES estilo(id_estilo)
+);
+
+ Tabela Pedido
+CREATE TABLE pedido (
+    id_pedido BIGINT PRIMARY KEY,
+    data_pedido DATETIME,
+    valor_total DECIMAL(10,2) NOT NULL,
+    canal_venda VARCHAR(50),
+    id_cliente BIGINT NOT NULL,
+    id_loja BIGINT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+    FOREIGN KEY (id_loja) REFERENCES loja(id_loja)
+);
+
+ Tabela Item_Pedido
+CREATE TABLE item_pedido (
+    id_item_pedido BIGINT PRIMARY KEY,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10,2) NOT NULL,
+    id_pedido BIGINT NOT NULL,
+    id_roupa BIGINT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
+    FOREIGN KEY (id_roupa) REFERENCES roupa(id_roupa)
+);
+
+ Tabela Estoque
+CREATE TABLE estoque (
+    id_estoque BIGINT PRIMARY KEY,
+    quantidade INT,
+    id_roupa BIGINT NOT NULL,
+    id_loja BIGINT NOT NULL,
+    FOREIGN KEY (id_roupa) REFERENCES roupa(id_roupa),
+    FOREIGN KEY (id_loja) REFERENCES loja(id_loja)
+);
+
+ Tabela Vitrine
+CREATE TABLE vitrine (
+    id_vitrine BIGINT PRIMARY KEY,
+    nome_ex exibicao VARCHAR(150), -- ou nome_exibicao
+    ativa BOOLEAN,
+    id_loja BIGINT NOT NULL,
+    FOREIGN KEY (id_loja) REFERENCES loja(id_loja)
+);
+
+
+  Tabela Pagamento
+CREATE TABLE pagamento (
+    id_pagamento BIGINT PRIMARY KEY,
+    forma_pagamento VARCHAR(50),
+    valor DECIMAL(10,2),
+    status VARCHAR(50),
+    id_pedido BIGINT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido)
+)
