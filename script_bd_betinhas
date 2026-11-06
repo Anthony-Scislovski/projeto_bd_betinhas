@@ -13,3 +13,11 @@ CREATE TABLE estilo (
     descricao TEXT
 );
 
+ Tabela Colecao
+CREATE TABLE colecao (
+    id_colecao BIGINT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    estacao VARCHAR(50),
+    ano INT NOT NULL
+);
+
